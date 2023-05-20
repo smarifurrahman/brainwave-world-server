@@ -71,6 +71,21 @@ async function run() {
             res.send(result);
         })
 
+        app.patch('/toys/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+
+            updatedToyInfo = req.body;
+            console.log(updatedToyInfo);
+
+            const updateToy = {
+                $set: updatedToyInfo,
+            };
+            const result = await toyCollection.updateOne(filter, updateToy);
+            res.send(result);
+
+        })
+
         // blogs
         app.get('/blogs', async (req, res) => {
             const result = await blogCollection.find().toArray();
