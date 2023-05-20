@@ -29,6 +29,7 @@ async function run() {
         await client.connect();
 
         const toyCollection = client.db('brainwaveWorld').collection('toys');
+        const blogCollection = client.db('brainwaveWorld').collection('blogs');
 
         app.post('/addToy', async (req, res) => {
             const toyInfo = req.body;
@@ -60,6 +61,12 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
             const result = await toyCollection.findOne(query);
+            res.send(result);
+        })
+
+        // blogs
+        app.get('/blogs', async (req, res) => {
+            const result = await blogCollection.find().toArray();
             res.send(result);
         })
 
