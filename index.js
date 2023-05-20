@@ -38,11 +38,17 @@ async function run() {
         })
 
         app.get('/toys', async (req, res) => {
-            
+
             console.log(req.query);
             let query = {};
-            if (req.query?.email) {
+            if (req.query?.email && req.query?.category) {
+                query = { sellerEmail: req.query.email, toyCategory: req.query.category };
+            }
+            else if (req.query?.email) {
                 query = { sellerEmail: req.query.email };
+            }
+            else if (req.query?.category) {
+                query = { toyCategory: req.query.category };
             }
 
             const cursor = toyCollection.find(query);
