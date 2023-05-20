@@ -30,13 +30,22 @@ async function run() {
 
         const toyCollection = client.db('brainwaveWorld').collection('toys');
 
+        app.post('/addToy', async (req, res) => {
+            const toyInfo = req.body;
+            console.log(toyInfo);
+            const result = await toyCollection.insertOne(toyInfo);
+            res.send(result);
+        })
+
         app.get('/toys', async (req, res) => {
             const cursor = toyCollection.find();
             const result = await cursor.toArray();
             res.send(result);
         })
 
+        app.get('toys/:id', async (req, res) => {
 
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
