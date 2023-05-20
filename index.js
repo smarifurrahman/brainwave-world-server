@@ -38,7 +38,14 @@ async function run() {
         })
 
         app.get('/toys', async (req, res) => {
-            const cursor = toyCollection.find();
+            
+            console.log(req.query);
+            let query = {};
+            if (req.query?.email) {
+                query = { sellerEmail: req.query.email };
+            }
+
+            const cursor = toyCollection.find(query);
             const result = await cursor.toArray();
             res.send(result);
         })
