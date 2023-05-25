@@ -52,7 +52,17 @@ async function run() {
                 query = { toyCategory: req.query.category };
             }
 
-            const cursor = toyCollection.find(query);
+            let options = {};
+            if (req.query?.sort) {
+                const sort = req.query.sort;
+                options = {
+                    sort: {
+                        'toyPrice': sort === 'asc' ? 1 : -1
+                    }
+                }
+            }
+
+            const cursor = toyCollection.find(query, options);
             const result = await cursor.toArray();
             res.send(result);
         })
